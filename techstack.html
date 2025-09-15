@@ -1,0 +1,500 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Spam Checker — Animated Tech Diagram</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#061018; --card:#0f1724; --accent:#00d1ff; --accent2:#3a8cff; --muted:#9aa7b2; --glass: rgba(255,255,255,0.04);
+      --gap:18px; --radius:16px; font-family: 'Orbitron', sans-serif;
+    }
+    *{box-sizing:border-box}
+    html,body{
+      height:100%;
+      margin:0;
+      background:
+        radial-gradient(1000px 500px at 10% 10%, rgba(0,209,255,0.05), transparent),
+        linear-gradient(180deg,#03060a 0%, #061018 100%);
+      color:#e6eef6;
+      -webkit-font-smoothing:antialiased;
+      overflow-x: hidden;
+      transition: background 0.5s ease;
+    }
+    /* Subtle animated background */
+    body::before {
+      content: "";
+      position: fixed;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at center, rgba(0,209,255,0.1), transparent 70%);
+      animation: bgPulse 15s ease-in-out infinite;
+      z-index: -1;
+      pointer-events: none;
+    }
+    @keyframes bgPulse {
+      0%, 100% { transform: scale(1) translate(0,0); opacity: 0.3; }
+      50% { transform: scale(1.1) translate(10px, 10px); opacity: 0.5; }
+    }
+
+    .wrap{max-width:1200px;margin:36px auto;padding:26px}
+
+    header{
+      display:flex;
+      align-items:center;
+      gap:16px;
+      margin-bottom:20px;
+      user-select:none;
+    }
+    .logo{
+      width:64px;
+      height:64px;
+      border-radius:12px;
+      background:linear-gradient(135deg,var(--accent),var(--accent2));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:800;
+      color:#001;
+      box-shadow:0 10px 40px rgba(0,209,255,0.3);
+      font-size: 28px;
+      letter-spacing: 2px;
+      text-shadow: 0 0 6px rgba(0,209,255,0.7);
+      transition: box-shadow 0.3s ease;
+    }
+    .logo:hover {
+      box-shadow: 0 10px 60px rgba(0,209,255,0.6);
+      cursor: default;
+    }
+    h1{
+      font-size:26px;
+      margin:0;
+      text-shadow: 0 0 6px rgba(0,209,255,0.5);
+    }
+    p.lead{
+      color:var(--muted);
+      margin:6px 0 0;
+      font-size:14px;
+      max-width: 600px;
+      line-height: 1.4;
+    }
+
+    .diagram-card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      padding:22px;
+      border-radius:18px;
+      box-shadow:0 12px 40px rgba(3,10,18,0.8);
+      backdrop-filter: blur(8px);
+      transition: box-shadow 0.3s ease;
+    }
+    .diagram-card:hover {
+      box-shadow: 0 20px 60px rgba(0,209,255,0.5);
+    }
+    .svg-wrap{
+      width:100%;
+      overflow:auto;
+      padding:8px;
+    }
+
+    .pipeline-svg{
+      width:100%;
+      height:420px;
+      user-select:none;
+    }
+    @media(min-width:900px){ .pipeline-svg{height:320px} }
+    @media(max-width:520px){ .pipeline-svg{height:620px} }
+
+    .legend{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:14px;
+      user-select:none;
+    }
+    .legend .pill{
+      background:linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      padding:8px 12px;
+      border-radius:999px;
+      font-size:13px;
+      color:var(--muted);
+      display:flex;
+      gap:8px;
+      align-items:center;
+      border:1px solid rgba(255,255,255,0.04);
+      box-shadow: 0 0 8px rgba(0,209,255,0.1);
+      transition: background-color 0.3s ease;
+    }
+    .legend .pill:hover {
+      background-color: rgba(0,209,255,0.1);
+      color: #00d1ff;
+      border-color: #00d1ff;
+      cursor: default;
+    }
+    .legend .dot{
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      background:var(--accent);
+      box-shadow:0 0 14px var(--accent);
+    }
+
+    .btn{
+      display:inline-block;
+      padding:8px 14px;
+      border-radius:10px;
+      background:linear-gradient(90deg,var(--accent),var(--accent2));
+      color:#001;
+      font-weight:700;
+      text-decoration:none;
+      box-shadow: 0 0 12px var(--accent);
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+      user-select:none;
+    }
+    .btn:hover, .btn:focus {
+      box-shadow: 0 0 24px var(--accent2);
+      transform: scale(1.05);
+      outline: none;
+    }
+    .btn:active {
+      transform: scale(0.98);
+      box-shadow: 0 0 16px var(--accent);
+    }
+
+    .explain{
+      display:grid;
+      gap:10px;
+      margin-top:18px;
+    }
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      padding:14px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.03);
+      box-shadow: 0 0 8px rgba(0,209,255,0.1);
+      transition: box-shadow 0.3s ease;
+    }
+    .card:hover {
+      box-shadow: 0 0 20px rgba(0,209,255,0.3);
+    }
+    .card h3{
+      margin:0 0 6px;
+      font-size:15px;
+      color: #00d1ff;
+      text-shadow: 0 0 4px rgba(0,209,255,0.7);
+    }
+    .card p{
+      margin:0;
+      color:var(--muted);
+      font-size:13px;
+      line-height: 1.4;
+    }
+
+    /* modal styles */
+    .modal-backdrop{
+      position:fixed;
+      inset:0;
+      background:linear-gradient(180deg, rgba(2,6,10,0.8), rgba(0,0,0,0.8));
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:60;
+      backdrop-filter: blur(8px);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .modal-backdrop.show {
+      display: flex;
+      opacity: 1;
+    }
+    .modal{
+      width:min(760px,94%);
+      background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      border-radius:14px;
+      padding:20px;
+      border:1px solid rgba(255,255,255,0.06);
+      backdrop-filter: blur(12px);
+      box-shadow:0 20px 60px rgba(0,0,0,0.8);
+      transform: translateY(20px);
+      opacity: 0;
+      transition: transform 0.4s ease, opacity 0.4s ease;
+    }
+    .modal.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .modal h2{
+      margin:0 0 10px;
+      font-size:20px;
+      color:#eaffff;
+      text-shadow: 0 0 6px rgba(0,209,255,0.8);
+    }
+    .modal p{
+      color:var(--muted);
+      margin:0 0 12px;
+      line-height: 1.5;
+    }
+    .modal .meta{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .close-btn{
+      background:transparent;
+      border:1px solid rgba(255,255,255,0.06);
+      padding:6px 10px;
+      border-radius:10px;
+      color:var(--muted);
+      cursor:pointer;
+      font-weight: 600;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .close-btn:hover, .close-btn:focus {
+      background-color: var(--accent);
+      color: #001;
+      outline: none;
+    }
+
+    .tooltip{
+      position:fixed;
+      pointer-events:none;
+      padding:8px 12px;
+      border-radius:8px;
+      background:linear-gradient(180deg, rgba(0,0,0,0.8), rgba(0,0,0,0.6));
+      color:#e6f7ff;
+      font-size:13px;
+      border:1px solid rgba(255,255,255,0.05);
+      transform:translate(-50%,-140%);
+      white-space:nowrap;
+      box-shadow: 0 0 12px rgba(0,209,255,0.4);
+      transition: opacity 0.2s ease;
+      opacity: 0;
+      z-index: 100;
+    }
+    .tooltip.show {
+      opacity: 1;
+    }
+
+    /* node hover 3d effect */
+    .node rect{
+      transition: transform 300ms cubic-bezier(.2,.9,.2,1), box-shadow 300ms;
+      filter: drop-shadow(0 0 6px rgba(0,209,255,0.12));
+      cursor: pointer;
+      will-change: transform, box-shadow;
+      border-radius: 16px;
+    }
+    .node:hover rect{
+      transform: translateY(-8px) rotateX(8deg) scale(1.05);
+      box-shadow: 0 25px 50px rgba(0,209,255,0.6);
+      filter: drop-shadow(0 0 20px rgba(0,209,255,0.4));
+      transition-timing-function: cubic-bezier(.2,.9,.2,1);
+    }
+
+    /* neon accent glow */
+    .glow-stroke{
+      filter: drop-shadow(0 0 14px rgba(0,209,255,0.3));
+      stroke-linejoin: round;
+    }
+
+    /* Animate arrow dash offset for flow effect */
+    path.glow-stroke {
+      stroke-dasharray: 200;
+      animation: dashmove 2.5s linear infinite;
+    }
+    #return.glow-stroke {
+      stroke-dasharray: 800;
+      animation: dashmove 4s linear infinite;
+    }
+    @keyframes dashmove {
+      to {
+        stroke-dashoffset: 0;
+      }
+      from {
+        stroke-dashoffset: 200;
+      }
+    }
+
+    /* Pulsating glow on nodes */
+    .node rect {
+      animation: pulseGlow 3s ease-in-out infinite alternate;
+    }
+    .node:hover rect {
+      animation: pulseGlow 1.5s ease-in-out infinite alternate;
+    }
+    @keyframes pulseGlow {
+      0% {
+        box-shadow: 0 0 6px rgba(0,209,255,0.12);
+        filter: drop-shadow(0 0 6px rgba(0,209,255,0.12));
+      }
+      100% {
+        box-shadow: 0 0 20px rgba(0,209,255,0.4);
+        filter: drop-shadow(0 0 20px rgba(0,209,255,0.4));
+      }
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 520px) {
+      .node rect {
+        rx: 12px;
+      }
+    }
+
+    footer{
+      margin-top:18px;
+      color:var(--muted);
+      font-size:13px;
+      text-align: center;
+      user-select:none;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="logo" aria-label="SpamChecker Logo">SC</div>
+      <div>
+        <h1>SpamChecker — Animated Tech Diagram</h1>
+        <p class="lead">Interactive, glassmorphic pipeline with animated arrows and on-screen popups. Original code — hackathon-safe.</p>
+      </div>
+    </header>
+
+    <section class="diagram-card" aria-label="SpamChecker technology pipeline diagram">
+      <div class="svg-wrap" role="img" aria-describedby="diagramDesc">
+        <!-- Animated SVG -->
+        <svg id="pipeline" class="pipeline-svg" viewBox="0 0 1200 420" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+          <defs>
+            <linearGradient id="g1" x1="0" x2="1">
+              <stop offset="0%" stop-color="#00d1ff" stop-opacity="0.98" />
+              <stop offset="100%" stop-color="#3a8cff" stop-opacity="0.98" />
+            </linearGradient>
+            <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="8" result="b" />
+              <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+
+          <!-- Frontend node -->
+          <g class="node" data-key="Frontend UI" transform="translate(40,110)" tabindex="0" role="button" aria-label="Frontend UI node">
+            <rect x="0" y="0" width="220" height="130" rx="16" fill="rgba(255,255,255,0.02)" stroke="url(#g1)" stroke-width="1.2" />
+            <g transform="translate(20,18)" fill="#dff7ff">
+              <text x="0" y="0" font-size="18" font-weight="700">Frontend UI</text>
+              <text x="0" y="28" font-size="13" fill="#9fbfcf">HTML • CSS • JavaScript</text>
+              <text x="0" y="50" font-size="12" fill="#8fb0bd">Message input • Loader • Result</text>
+            </g>
+          </g>
+
+          <!-- arrow 1 -->
+          <path id="a1" d="M260 175 L340 175" stroke="url(#g1)" stroke-width="4" stroke-linecap="round" fill="none" class="glow-stroke" />
+
+          <!-- Backend node -->
+          <g class="node" data-key="Flask API" transform="translate(360,80)" tabindex="0" role="button" aria-label="Flask API node">
+            <rect x="0" y="0" width="240" height="160" rx="18" fill="rgba(255,255,255,0.02)" stroke="#153642" stroke-width="1.2" />
+            <g transform="translate(20,18)" fill="#dff7ff">
+              <text x="0" y="0" font-size="18" font-weight="700">Flask API</text>
+              <text x="0" y="28" font-size="13" fill="#93c7d9">/predict • Request handling</text>
+              <text x="0" y="52" font-size="12" fill="#8fb0bd">Auth, Rate-limit, CORS</text>
+            </g>
+          </g>
+
+          <!-- arrow 2 -->
+          <path id="a2" d="M620 175 L700 175" stroke="url(#g1)" stroke-width="4" stroke-linecap="round" fill="none" class="glow-stroke" />
+
+          <!-- Preprocessing node -->
+          <g class="node" data-key="Preprocessing" transform="translate(700,100)" tabindex="0" role="button" aria-label="Text Preprocessing node">
+            <rect x="0" y="0" width="220" height="120" rx="14" fill="rgba(255,255,255,0.02)" stroke="#13323f" stroke-width="1" />
+            <g transform="translate(18,16)" fill="#dff7ff">
+              <text x="0" y="0" font-size="16" font-weight="700">Text Preprocessing</text>
+              <text x="0" y="24" font-size="12" fill="#8fb0bd">Tokenize • Clean • Normalize</text>
+            </g>
+          </g>
+
+          <!-- arrow 3 -->
+          <path id="a3" d="M920 160 L1000 160" stroke="url(#g1)" stroke-width="4" stroke-linecap="round" fill="none" class="glow-stroke" />
+
+          <!-- ML Model node -->
+          <g class="node" data-key="ML Model" transform="translate(1000,100)" tabindex="0" role="button" aria-label="ML Model node">
+            <rect x="0" y="0" width="180" height="120" rx="14" fill="rgba(255,255,255,0.02)" stroke="#153642" stroke-width="1.2" />
+            <g transform="translate(12,16)" fill="#dff7ff">
+              <text x="0" y="0" font-size="16" font-weight="700">ML Model</text>
+              <text x="0" y="24" font-size="12" fill="#8fb0bd">Predict spam • Confidence score</text>
+            </g>
+          </g>
+
+          <!-- arrow 4 -->
+          <path id="a4" d="M1180 160 L1250 160" stroke="url(#g1)" stroke-width="4" stroke-linecap="round" fill="none" class="glow-stroke" />
+
+          <!-- Output node -->
+          <g class="node" data-key="Output" transform="translate(1250,100)" tabindex="0" role="button" aria-label="Output node">
+            <rect x="0" y="0" width="180" height="120" rx="14" fill="rgba(255,255,255,0.02)" stroke="#13323f" stroke-width="1" />
+            <g transform="translate(12,16)" fill="#dff7ff">
+              <text x="0" y="0" font-size="16" font-weight="700">Result</text>
+              <text x="0" y="24" font-size="12" fill="#8fb0bd">Display to user • Copy link</text>
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <div class="legend">
+        <div class="pill"><span class="dot"></span>Frontend</div>
+        <div class="pill"><span class="dot"></span>Backend</div>
+        <div class="pill"><span class="dot"></span>Processing</div>
+        <div class="pill"><span class="dot"></span>ML Model</div>
+        <div class="pill"><span class="dot"></span>Output</div>
+      </div>
+    </section>
+
+    <footer>© 2025 SpamChecker Interactive Diagram | Hackathon Demo</footer>
+  </div>
+
+  <div id="modalBackdrop" class="modal-backdrop">
+    <div class="modal">
+      <h2 id="modalTitle">Node Title</h2>
+      <p id="modalDesc">Description about this node will appear here.</p>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+
+  <div id="tooltip" class="tooltip"></div>
+
+  <script>
+    const nodes = document.querySelectorAll('.node');
+    const modalBackdrop = document.getElementById('modalBackdrop');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalDesc = document.getElementById('modalDesc');
+    const tooltip = document.getElementById('tooltip');
+
+    // Tooltip hover
+    nodes.forEach(node => {
+      node.addEventListener('mousemove', e => {
+        tooltip.textContent = node.dataset.key;
+        tooltip.style.left = e.pageX + 'px';
+        tooltip.style.top = e.pageY + 'px';
+        tooltip.classList.add('show');
+      });
+      node.addEventListener('mouseleave', () => {
+        tooltip.classList.remove('show');
+      });
+
+      // Click opens modal
+      node.addEventListener('click', () => {
+        modalTitle.textContent = node.dataset.key;
+        modalDesc.textContent = "Detailed information about " + node.dataset.key + " goes here. Explain components, functionality, and purpose.";
+        modalBackdrop.classList.add('show');
+        document.querySelector('.modal').classList.add('show');
+      });
+    });
+
+    function closeModal() {
+      modalBackdrop.classList.remove('show');
+      document.querySelector('.modal').classList.remove('show');
+    }
+
+    // Close modal on backdrop click
+    modalBackdrop.addEventListener('click', e => {
+      if (e.target === modalBackdrop) closeModal();
+    });
+  </script>
+</body>
+</html>
