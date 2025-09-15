@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spam Checker — Hackathon Site</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>Spam Checker</h1>
+    <p>Hackathon-ready, interactive, neon-glassmorphic spam detection.</p>
+    <div class="cta">
+      <button class="btn" onclick="scrollToSection('demoSection')">Try Demo</button>
+      <button class="btn" onclick="scrollToSection('flowchartSection')">See Flowchart</button>
+    </div>
+  </section>
+
+  <!-- Problem Section -->
+  <section id="problemSection">
+    <h2>Why This Matters</h2>
+    <div class="problem-card">
+      Spam messages waste time, may contain phishing links, and create security risks. Our project ensures fast, accurate detection using ML.
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="featuresSection">
+    <h2>Key Features</h2>
+    <div class="features">
+      <div class="feature-card"><h3>High Accuracy</h3><p>Classifies messages with precision using ML algorithms.</p></div>
+      <div class="feature-card"><h3>Lightning Fast</h3><p>Processes messages in milliseconds for instant feedback.</p></div>
+      <div class="feature-card"><h3>Privacy First</h3><p>No sensitive data is stored; your messages stay private.</p></div>
+      <div class="feature-card"><h3>Multi-Platform</h3><p>Ready for web, mobile, or integration with APIs.</p></div>
+    </div>
+  </section>
+
+  <!-- Flowchart Section -->
+  <section id="flowchartSection">
+    <h2>How It Works</h2>
+    <div class="diagram-card">
+      <div class="svg-wrap">
+        <a href="techstack.html" style="display:block;">
+          <svg id="pipeline" class="pipeline-svg" viewBox="0 0 1200 420">
+            <!-- Nodes will be dynamically added via JS -->
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Demo Section -->
+  <section id="demoSection">
+    <h2>Live Demo</h2>
+    <div class="demo-card">
+      <input type="text" placeholder="Enter message here" id="messageInput">
+      <button onclick="simulateDemo()">Check Spam</button>
+      <div class="demo-result" id="demoResult"></div>
+    </div>
+  </section>
+
+  <!-- Modal -->
+  <div id="modalBackdrop" class="modal-backdrop">
+    <div class="modal">
+      <h2 id="modalTitle">Title</h2>
+      <p id="modalBody">Details...</p>
+      <button class="close-btn" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+
+  <footer>© 2025 Spam Checker | Original Hackathon Submission</footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
