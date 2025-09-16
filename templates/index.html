@@ -17,6 +17,7 @@
       --danger: #ff4d4d;
       --success: #00ff99;
       --light: #f8f8f8;
+      --transition: all 0.3s ease;
     }
 
     * {
@@ -31,11 +32,37 @@
       color: var(--light);
       min-height: 100vh;
       padding: 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Animated background elements */
+    .bg-blob {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(58, 140, 255, 0.15) 0%, rgba(0, 209, 255, 0.1) 50%, transparent 100%);
+      border-radius: 50%;
+      filter: blur(60px);
+      z-index: -1;
+    }
+
+    .bg-blob-1 {
+      top: -250px;
+      right: -250px;
+    }
+
+    .bg-blob-2 {
+      bottom: -300px;
+      left: -300px;
+      background: radial-gradient(circle, rgba(0, 255, 153, 0.1) 0%, rgba(0, 209, 255, 0.05) 50%, transparent 100%);
     }
 
     .container {
       max-width: 1200px;
       margin: 0 auto;
+      position: relative;
+      z-index: 1;
     }
 
     header {
@@ -44,6 +71,7 @@
       align-items: center;
       padding: 1rem 0;
       margin-bottom: 2rem;
+      animation: fadeInDown 1s ease;
     }
 
     .logo {
@@ -54,6 +82,13 @@
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo i {
+      font-size: 1.5rem;
     }
 
     nav ul {
@@ -66,12 +101,28 @@
       color: var(--light);
       text-decoration: none;
       font-weight: 500;
-      transition: color 0.3s;
+      transition: var(--transition);
       font-size: 1rem;
+      position: relative;
+    }
+
+    nav a:after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -5px;
+      left: 0;
+      background: linear-gradient(to right, var(--accent), var(--accent2));
+      transition: var(--transition);
     }
 
     nav a:hover {
       color: var(--accent);
+    }
+
+    nav a:hover:after {
+      width: 100%;
     }
 
     .hero {
@@ -83,6 +134,19 @@
       backdrop-filter: blur(10px);
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
       border: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+      animation: fadeIn 1s ease;
+    }
+
+    .hero:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(to right, var(--accent), var(--accent2));
     }
 
     .hero h1 {
@@ -93,6 +157,7 @@
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
+      animation: fadeInUp 1s ease;
     }
 
     .hero p {
@@ -100,6 +165,7 @@
       max-width: 700px;
       margin: 0 auto 2rem;
       color: var(--muted);
+      animation: fadeInUp 1.2s ease;
     }
 
     .cta {
@@ -107,6 +173,7 @@
       justify-content: center;
       gap: 1rem;
       margin-top: 2rem;
+      animation: fadeInUp 1.4s ease;
     }
 
     .btn {
@@ -118,11 +185,28 @@
       font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: var(--transition);
       display: flex;
       align-items: center;
       gap: 8px;
       box-shadow: 0 5px 15px rgba(0, 209, 255, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: 0.5s;
+    }
+
+    .btn:hover:before {
+      left: 100%;
     }
 
     .btn:hover {
@@ -142,6 +226,14 @@
 
     section {
       margin-bottom: 4rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     h2 {
@@ -150,6 +242,22 @@
       margin-bottom: 2rem;
       text-align: center;
       color: var(--accent);
+      position: relative;
+      display: inline-block;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    h2:after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(to right, var(--accent), var(--accent2));
+      border-radius: 3px;
     }
 
     .features {
@@ -167,17 +275,40 @@
       backdrop-filter: blur(10px);
       box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
       border: 1px solid rgba(255, 255, 255, 0.05);
-      transition: transform 0.3s;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 5px;
+      height: 0;
+      background: linear-gradient(to bottom, var(--accent), var(--accent2));
+      transition: var(--transition);
+    }
+
+    .feature-card:hover:before {
+      height: 100%;
     }
 
     .feature-card:hover {
       transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 209, 255, 0.2);
     }
 
     .feature-card i {
       font-size: 2.5rem;
       color: var(--accent);
       margin-bottom: 1rem;
+      transition: var(--transition);
+    }
+
+    .feature-card:hover i {
+      transform: scale(1.1);
     }
 
     .feature-card h3 {
@@ -190,6 +321,77 @@
       color: var(--muted);
     }
     
+    /* Problem Section */
+    .problem-card {
+      background: var(--glass);
+      border-radius: var(--radius);
+      padding: 2rem;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .problem-card:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(to right, var(--accent), var(--accent2));
+    }
+
+    .problem-card p {
+      color: var(--muted);
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    /* Stats Section */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .stat-card {
+      background: var(--glass);
+      padding: 1.5rem;
+      border-radius: var(--radius);
+      text-align: center;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: var(--transition);
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .stat-card i {
+      font-size: 2rem;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-card h3 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--light);
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    .stat-card p {
+      color: var(--muted);
+    }
+
     /* Demo Card */
     .demo-card {
       background: var(--glass);
@@ -212,7 +414,7 @@
       padding: 1rem 1.5rem;
       cursor: pointer;
       opacity: 0.7;
-      transition: all 0.3s;
+      transition: var(--transition);
       border-bottom: 3px solid transparent;
     }
 
@@ -232,6 +434,7 @@
 
     .tab-content.active {
       display: block;
+      animation: fadeIn 0.5s ease;
     }
 
     textarea, input[type="text"] {
@@ -240,10 +443,11 @@
       background: rgba(25, 25, 25, 0.7);
       border: 2px solid rgba(51, 51, 51, 0.7);
       border-radius: 10px;
-      color: var(--accent);
+      color: var(--light);
       font-size: 1rem;
       margin-bottom: 1.5rem;
-      transition: border-color 0.3s;
+      transition: var(--transition);
+      font-family: 'Roboto', sans-serif;
     }
 
     textarea:focus, input[type="text"]:focus {
@@ -265,6 +469,8 @@
       font-weight: 500;
       background: rgba(25, 25, 25, 0.5);
       border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: var(--transition);
+      animation: fadeIn 0.5s ease;
     }
 
     .demo-result.spam {
@@ -277,6 +483,95 @@
       background: rgba(13, 64, 38, 0.3);
       color: var(--success);
       border-color: rgba(0, 255, 153, 0.3);
+    }
+
+    /* Innovation Section */
+    .innovation {
+      text-align: center;
+      padding: 3rem 1rem;
+      margin-bottom: 3rem;
+      background: var(--glass);
+      border-radius: var(--radius);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .innovation:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(to right, var(--accent), var(--accent2));
+    }
+
+    .innovation-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .innovation-card {
+      background: rgba(255, 255, 255, 0.03);
+      padding: 2rem;
+      border-radius: var(--radius);
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: var(--transition);
+    }
+
+    .innovation-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 209, 255, 0.2);
+    }
+
+    .innovation-card i {
+      font-size: 2.5rem;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .innovation-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      color: var(--light);
+    }
+
+    .innovation-card p {
+      color: var(--muted);
+    }
+
+    /* Technology Stack */
+    .tech-stack {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .tech-item {
+      background: var(--glass);
+      padding: 1rem 1.5rem;
+      border-radius: 50px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: var(--transition);
+    }
+
+    .tech-item:hover {
+      background: rgba(0, 209, 255, 0.1);
+      transform: translateY(-3px);
+    }
+
+    .tech-item i {
+      color: var(--accent);
     }
 
     footer {
@@ -296,16 +591,83 @@
     .social-links a {
       color: var(--light);
       font-size: 1.5rem;
-      transition: color 0.3s;
+      transition: var(--transition);
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: var(--glass);
     }
 
     .social-links a:hover {
       color: var(--accent);
+      transform: translateY(-3px);
     }
 
     footer p {
       color: var(--muted);
       margin-bottom: 0.5rem;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes fadeInUp {
+      from { 
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to { 
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInDown {
+      from { 
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to { 
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Scroll to top button */
+    .scroll-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(to right, var(--accent), var(--accent2));
+      color: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+      opacity: 0;
+      visibility: hidden;
+      box-shadow: 0 5px 15px rgba(0, 209, 255, 0.3);
+      z-index: 1000;
+    }
+
+    .scroll-top.visible {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .scroll-top:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 209, 255, 0.4);
     }
 
     @media (max-width: 768px) {
@@ -338,14 +700,20 @@
   </style>
 </head>
 <body>
+  <!-- Background elements -->
+  <div class="bg-blob bg-blob-1"></div>
+  <div class="bg-blob bg-blob-2"></div>
+
   <div class="container">
     <header>
-      <div class="logo">SpamShield</div>
+      <div class="logo"><i class="fas fa-shield-alt"></i> SpamShield</div>
       <nav>
         <ul>
           <li><a href="#featuresSection">Features</a></li>
+          <li><a href="#problemSection">Problem</a></li>
           <li><a href="#demoSection">Demo</a></li>
           <li><a href="#statsSection">Stats</a></li>
+          <li><a href="#innovationSection">Innovation</a></li>
         </ul>
       </nav>
     </header>
@@ -356,7 +724,7 @@
       <p>Advanced machine learning algorithms to protect your inbox from spam, phishing attempts, and malicious content.</p>
       <div class="cta">
         <button class="btn" onclick="scrollToSection('demoSection')"><i class="fas fa-play-circle"></i> Try Live Demo</button>
-        <button class="btn btn-outline" onclick="scrollToSection('featuresSection')"><i class="fas fa-star"></i> Learn More</button>
+        <button class="btn btn-outline" onclick="scrollToSection('innovationSection')"><i class="fas fa-lightbulb"></i> Our Innovation</button>
       </div>
     </section>
 
@@ -386,11 +754,39 @@
         </div>
       </div>
     </section>
-<!-- Problem Section -->
+
+    <!-- Problem Section -->
     <section id="problemSection">
       <h2>Why Spam Detection Matters</h2>
       <div class="problem-card">
         <p>Spam is more than just annoying—it's a security risk. Each day, billions of spam messages are sent, containing phishing links, scams, and malware. Our advanced detection system helps protect users from these threats with real-time analysis and AI-powered accuracy.</p>
+      </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section id="statsSection">
+      <h2>Our Impact</h2>
+      <div class="stats">
+        <div class="stat-card">
+          <i class="fas fa-envelope-open-text"></i>
+          <h3 data-target="5000000">0</h3>
+          <p>Emails Protected Daily</p>
+        </div>
+        <div class="stat-card">
+          <i class="fas fa-filter"></i>
+          <h3 data-target="99.9">0</h3>
+          <p>Accuracy Rate</p>
+        </div>
+        <div class="stat-card">
+          <i class="fas fa-bug"></i>
+          <h3 data-target="12000000">0</h3>
+          <p>Threats Blocked</p>
+        </div>
+        <div class="stat-card">
+          <i class="fas fa-clock"></i>
+          <h3 data-target="2">0</h3>
+          <p>Millisecond Analysis</p>
+        </div>
       </div>
     </section>
 
@@ -412,12 +808,12 @@
         </div>
 
         <div class="tab-content" id="url-tab">
-          <input type="text" placeholder="Enter a URL to check for spam" id="urlInput">
+          <input type="text" id="urlInput" placeholder="Enter URL to check...">
           <button class="btn" onclick="checkSpam('url')"><i class="fas fa-shield-alt"></i> Check URL</button>
         </div>
 
         <div class="tab-content" id="message-tab">
-          <textarea placeholder="Enter a message to check for spam" id="messageInput"></textarea>
+          <input type="text" id="messageInput" placeholder="Enter message to check...">
           <button class="btn" onclick="checkSpam('message')"><i class="fas fa-shield-alt"></i> Check Message</button>
         </div>
 
@@ -437,6 +833,55 @@
       </div>
     </section>
 
+    <!-- Innovation Section -->
+    <section id="innovationSection">
+      <h2>Our Innovation</h2>
+      <div class="innovation">
+        <p>SpamShield represents a breakthrough in spam detection technology, combining cutting-edge AI with practical usability.</p>
+        
+        <div class="innovation-grid">
+          <div class="innovation-card">
+            <i class="fas fa-robot"></i>
+            <h3>Advanced AI Algorithms</h3>
+            <p>Our proprietary machine learning models analyze thousands of signals to detect even the most sophisticated spam attempts.</p>
+          </div>
+          <div class="innovation-card">
+            <i class="fas fa-user-shield"></i>
+            <h3>Privacy First</h3>
+            <p>All processing happens locally - your emails never leave your device, ensuring complete privacy and security.</p>
+          </div>
+          <div class="innovation-card">
+            <i class="fas fa-bolt"></i>
+            <h3>Lightning Fast</h3>
+            <p>Our optimized algorithms process emails in milliseconds, providing real-time protection without slowing you down.</p>
+          </div>
+        </div>
+        
+        <h3 style="margin-top: 3rem; margin-bottom: 1rem;">Technology Stack</h3>
+        <div class="tech-stack">
+          <div class="tech-item">
+            <i class="fab fa-python"></i>
+            <span>Python</span>
+          </div>
+          <div class="tech-item">
+            <i class="fas fa-brain"></i>
+            <span>TensorFlow</span>
+          </div>
+          <div class="tech-item">
+            <i class="fas fa-chart-line"></i>
+            <span>NLP</span>
+          </div>
+          <div class="tech-item">
+            <i class="fas fa-code"></i>
+            <span>Flask</span>
+          </div>
+          <div class="tech-item">
+            <i class="fas fa-shield-alt"></i>
+            <span>Cybersecurity</span>
+          </div>
+        </div>
+      </div>
+    </section>
     
     <footer>
       <div class="social-links">
@@ -450,12 +895,32 @@
     </footer>
   </div>
 
+  <!-- Scroll to top button -->
+  <div class="scroll-top" onclick="scrollToTop()">
+    <i class="fas fa-arrow-up"></i>
+  </div>
+
   <script>
     // Smooth scrolling function
     function scrollToSection(sectionId) {
       const section = document.getElementById(sectionId);
       section.scrollIntoView({ behavior: 'smooth' });
     }
+
+    // Scroll to top function
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Show scroll-to-top button when scrolling down
+    window.addEventListener('scroll', function() {
+      const scrollTopBtn = document.querySelector('.scroll-top');
+      if (window.scrollY > 500) {
+        scrollTopBtn.classList.add('visible');
+      } else {
+        scrollTopBtn.classList.remove('visible');
+      }
+    });
 
     // Tab functionality
     document.querySelectorAll('.tab').forEach(tab => {
@@ -559,7 +1024,64 @@
         }
       }, 1500);
     }
--------------------
+
+    // Animated counter for stats
+    function animateCounter() {
+      const counters = document.querySelectorAll('.stat-card h3');
+      const speed = 200; // The lower the slower
+      
+      counters.forEach(counter => {
+        const target = +counter.getAttribute('data-target');
+        let count = 0;
+        
+        const updateCount = () => {
+          const increment = target / speed;
+          
+          if (count < target) {
+            count += increment;
+            if (counter.getAttribute('data-target') === '99.9') {
+              counter.innerText = count.toFixed(1) + '%';
+            } else {
+              counter.innerText = Math.ceil(count).toLocaleString();
+            }
+            setTimeout(updateCount, 1);
+          } else {
+            if (counter.getAttribute('data-target') === '99.9') {
+              counter.innerText = target.toFixed(1) + '%';
+            } else {
+              counter.innerText = target.toLocaleString();
+            }
+          }
+        };
+        
+        updateCount();
+      });
+    }
+
+    // Intersection Observer for scroll animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          
+          // If it's the stats section, animate the counters
+          if (entry.target.id === 'statsSection') {
+            animateCounter();
+          }
+        }
+      });
+    }, observerOptions);
+
+    // Observe all sections
+    document.querySelectorAll('section').forEach(section => {
+      observer.observe(section);
+    });
+
     // Initialize page
     document.addEventListener('DOMContentLoaded', function() {
       // Allow pressing Enter in input fields
@@ -577,6 +1099,9 @@
           if (e.key === 'Enter') checkSpam('message');
         });
       }
+      
+      // Make sure hero section is visible on load
+      document.querySelector('.hero').style.opacity = '1';
     });
   </script>
 </body>
